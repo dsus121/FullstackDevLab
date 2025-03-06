@@ -8,11 +8,14 @@ function Show() {
 
     // replace initializer function in useState with an object: {}
     // and fetch a single post (GET request) inside a useEffect instead 
-    const [post, setPost] = useState(() => data.initPost(params.id))
+    const [post, setPost] = useState({})
 
     const navigate = useNavigate()
     const bodyRef = useRef()
     const detailsRef = useRef()
+
+ 
+
 
     function handleDeleteComment(comment) {
         // setPost(updatedPost)
@@ -32,6 +35,16 @@ function Show() {
         // bodyRef.current.value = ''
         // detailsRef.current.open = false
     }
+
+    useEffect(() => {
+        async function fetchPost() {
+            const response = await fetch(`http://localhost:3001/api/posts/${params.id}`);
+            const post = await response.json();
+            setPost(post);
+            console.log(post)
+          }
+          fetchPost();
+    }, [])
 
     return (
             <div>

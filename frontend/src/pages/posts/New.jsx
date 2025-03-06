@@ -15,12 +15,12 @@ function New() {
             body: bodyRef.current.value
         }
         
-        // replace with fetch (POST request)
-        data.createPost(post)
 
         navigate('/posts')
     }
 
+
+    
     return ( 
         <div>
             <h1>New Post</h1>

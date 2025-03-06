@@ -8,27 +8,52 @@ function Edit() {
 
     // replace initializer function in useState with an object: {}
     // and fetch a single post (GET request) inside a useEffect instead 
-    const [post, setPost] = useState(() => data.initPost(params.id))
+    const [post, setPost] = useState({})
 
     const navigate = useNavigate()
 
     const bodyRef = useRef()
     const subjectRef = useRef()
 
+    async function editPost() {
+        const response = await fetch(`http://localhost:3001/api/posts/${params.id}`,
+            {
+                method: 'PUT',
+                body: {
+                    subject: subjectRef.current.value,
+                    body: bodyRef.current.value,
+                },
+                headers: {
+        'Content-Type': 'application/json'
+    }
+      }
+        )
+        const post = await response.json()
+    }
+
+
     function handleSubmit(e) {
         e.preventDefault()
 
-        let updatedPost = {
-            subject: subjectRef.current.value,
-            body: bodyRef.current.value,
-            _id: Number(params.id) // can remove this
-        }
+        // let updatedPost = {
+        //     subject: subjectRef.current.value,
+        //     body: bodyRef.current.value,
+        // }
 
-        // replace with fetch (PUT request)
-        data.updatePost(updatedPost)
+editPost()
 
         navigate(`/posts/${post._id}`)
     }
+
+    useEffect(() => {
+        async function fetchPost() {
+            const response = await fetch(`http://localhost:3001/api/posts/${params.id}`);
+            const post = await response.json();
+            setPost(post);
+            console.log(post)
+          }
+          fetchPost();
+    }, [])
 
     return ( 
         <div>
