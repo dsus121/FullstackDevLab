@@ -7,7 +7,18 @@ function Index() {
 
     // replace initializer function in useState with an array: []
     // and fetch all posts (GET request) inside a useEffect instead 
-    const [posts, setPosts] = useState(data.initPosts)
+    const [posts, setPosts] = useState([])
+
+    async function fetchPosts() {
+        const response = await fetch('http://localhost:3001/api/posts/')
+        const post = await response.json()
+        setPosts(post)
+     }
+
+    useEffect(() => {
+        fetchPosts()
+    }, [])
+
 
     return (
             <div>
