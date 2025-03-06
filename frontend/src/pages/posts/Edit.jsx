@@ -16,18 +16,19 @@ function Edit() {
     const subjectRef = useRef()
 
     async function editPost() {
-        const response = await fetch(`http://localhost:3001/api/posts/${params.id}`,
-            {
-                method: 'PUT',
-                body: {
-                    subject: subjectRef.current.value,
-                    body: bodyRef.current.value,
-                },
-                headers: {
-        'Content-Type': 'application/json'
-    }
-      }
-        )
+        const response = await fetch(`http://localhost:3001/api/posts/${params.id}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                subject: subjectRef.current.value,
+                body: bodyRef.current.value,
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+    
+     
+        
         const post = await response.json()
     }
 
